@@ -1,15 +1,13 @@
 const { MongoClient } = require("mongodb");
+require("dotenv").config();
 
-// The uri string must be the connection string for the database (obtained on Atlas).
-const uri =
-  "mongodb+srv://testUser:vBc5LnZtMLdGolsk@cluster0.gj1rulp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const PORT = process.env.PORT;
+const DATABASE_URI = process.env.DATABASE_URI;
 
-// --- This is the standard stuff to get it to work on the browser
 const express = require("express");
 const app = express();
-const port = 3000;
-app.listen(port);
-console.log("Server started at http://localhost:" + port);
+app.listen(PORT);
+console.log("Server started at http://localhost:" + PORT);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -37,7 +35,7 @@ String.prototype.toTitleCase = function () {
 
 // Route to access database:
 app.get("/api/mongo/:item", function (req, res) {
-  const client = new MongoClient(uri);
+  const client = new MongoClient(DATABASE_URI);
   const searchKey = "{ name: '" + req.params.item + "' }";
   console.log("Looking for: " + searchKey);
 
