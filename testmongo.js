@@ -39,7 +39,9 @@ app.get("/api/mongo/:item", function (req, res) {
       const parts = database.collection("Equipment");
 
       // But we will use the parameter provided with the route
-      const query = { name: req.params.item };
+      const query = {
+        name: req.params.item.toTitleCase(),
+      };
 
       const part = await parts.findOne(query);
       console.log(part);
@@ -51,3 +53,11 @@ app.get("/api/mongo/:item", function (req, res) {
   }
   run().catch(console.dir);
 });
+
+String.prototype.toTitleCase = function () {
+  return this.match(
+    /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g
+  )
+    .map((x) => x.slice(0, 1).toUpperCase() + x.slice(1))
+    .join(" ");
+};
