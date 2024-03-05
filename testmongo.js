@@ -36,7 +36,7 @@ app.get("/api/mongo/:item", function (req, res) {
   async function run() {
     try {
       const database = client.db("CMPS415");
-      const parts = database.collection("Users");
+      const parts = database.collection("Equipment");
 
       // But we will use the parameter provided with the route
       const query = { name: req.params.item };
