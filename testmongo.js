@@ -27,6 +27,14 @@ app.get("/say/:name", function (req, res) {
   res.send("Hello " + req.params.name + "!");
 });
 
+String.prototype.toTitleCase = function () {
+  return this.match(
+    /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g
+  )
+    .map((x) => x.slice(0, 1).toUpperCase() + x.slice(1))
+    .join(" ");
+};
+
 // Route to access database:
 app.get("/api/mongo/:item", function (req, res) {
   const client = new MongoClient(uri);
@@ -53,11 +61,3 @@ app.get("/api/mongo/:item", function (req, res) {
   }
   run().catch(console.dir);
 });
-
-String.prototype.toTitleCase = function () {
-  return this.match(
-    /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g
-  )
-    .map((x) => x.slice(0, 1).toUpperCase() + x.slice(1))
-    .join(" ");
-};
