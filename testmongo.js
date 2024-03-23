@@ -4,8 +4,9 @@ var cookieParser = require("cookie-parser"); //needed for cookies
 var bodyParser = require("body-parser");
 require("dotenv").config();
 
-const PORT = process.env.PORT;
+//T1-REF1
 const DATABASE_URI = process.env.DATABASE_URI;
+const PORT = process.env.PORT;
 
 const app = express();
 
@@ -159,7 +160,7 @@ app.get("/register", function (req, res) {
   res.send(register);
 });
 
-////T2-REF1
+//T2-REF1
 app.post("/register_result", jsonParser, function (req, res) {
   const client = new MongoClient(DATABASE_URI);
 
@@ -223,6 +224,7 @@ app.get("/api/mongo/:item", function (req, res) {
   run().catch(console.dir);
 });
 
+//T5-REF1
 app.get("/clearcookies", function (req, res) {
   let output = "";
   currentCookies = req.cookies;
@@ -232,14 +234,15 @@ app.get("/clearcookies", function (req, res) {
     res.clearCookie(cookie);
   });
 
-  if (output === "") output = "<p>No cookies found.";
-  res.send(output + viewCookiesLink);
+  if (output === "")
+    output = "<p>No cookies found." + viewCookiesLink + goHomeLink;
+
+  res.send(output + viewCookiesLink + goHomeLink);
 });
 
-//T5-REF1
+//T4-REF2
 // Report cookies on console and browser
 app.get("/report", function (req, res) {
-  //T4-REF2
   res.send(
     `${JSON.stringify(
       req.cookies
